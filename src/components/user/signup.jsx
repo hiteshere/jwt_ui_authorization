@@ -7,28 +7,24 @@ class Signup extends Component {
     constructor(props) {
         super(props);
         this.submitForm = this.submitForm.bind(this)
-        this.handleChange = this.handleChange.bind(this)
         this.resetForm = this.resetForm.bind(this)
         this.onCloseModal = this.onCloseModal.bind(this)
         this.state = {
-            email : '',
-            password:'',
-            first_name : '',
-            last_name : '',
-            company_name : '',
-            company_type : '',
-            designation : '',
+            fields: {},
             open: false,
 
         };
     }
     submitForm(e){
         console.log('data here'+ e)
-        this.props.userCreationAction(this.state)
+        this.props.userCreationAction(this.state.fields)
         e.preventDefault();
     }
-    handleChange(event) {
-        this.setState({ [event.target.name] : event.target.value});
+    
+    handleChange(field, e){         
+        let fields = this.state.fields;
+        fields[field] = e.target.value;        
+        this.setState({fields});
     }
     resetForm(event){
         window.location.reload();
@@ -60,51 +56,58 @@ class Signup extends Component {
                     <br/>
                     <div>
                         <span>Email id  </span>
-                        <input  type="text" name = "email" placeholder="email" onChange={this.handleChange}/>
-                        <span>  {this.state && this.state.email}</span>
+                        <input  type="text" name = "email" placeholder="email" 
+                        onChange={this.handleChange.bind(this, "email")} value={this.state.fields["email"]}/>
+                        <span>  {this.state.fields && this.state.fields['email']}</span>
                     </div>
                     <br/>
                     <div>
                         <span>Password  </span>
-                        <input  type="text" name = "password" placeholder="password" onChange={this.handleChange}/>
-                        <span>  {this.state && this.state.password}</span>
+                        <input  type="text" name = "password" placeholder="password"
+                        onChange={this.handleChange.bind(this, "password")} value={this.state.fields["password"]}/>
+                        <span>  {this.state.fields && this.state.fields['password']}</span>
                     </div>
                     <br/>
                     <div>
                         <span>User first name  </span>
-                        <input  type="text" name = "first_name" placeholder="first name" onChange={this.handleChange}/>
-                        <span>  {this.state && this.state.first_name}</span>
+                        <input  type="text" name = "first_name" placeholder="first name"
+                        onChange={this.handleChange.bind(this, "first_name")} value={this.state.fields["first_name"]}/>
+                        <span>  {this.state.fields && this.state.fields['first_name']}</span>
                     </div>
                     <br/>
                     <div>
                         <span>User last name  </span>
-                        <input  type="text" name = "last_name" placeholder="last name" onChange={this.handleChange}/>
-                        <span>  {this.state && this.state.last_name}</span>
+                        <input  type="text" name = "last_name" placeholder="last name"
+                        onChange={this.handleChange.bind(this, "last_name")} value={this.state.fields["last_name"]}/>
+                        <span>  {this.state.fields && this.state.fields['last_name']}</span>
                     </div>
                     <br/>
                     <div>
                         <span>Company name  </span>
-                        <input  type="text" name = "company_name" placeholder="compnay name" onChange={this.handleChange}/>
-                        <span>  {this.state && this.state.company_name}</span>
+                        <input  type="text" name = "company_name" placeholder="compnay name"
+                        onChange={this.handleChange.bind(this, "company_name")} value={this.state.fields["company_name"]}/>
+                        <span>  {this.state.fields && this.state.fields['company_name']}</span>
                     </div>
                     <br/>
                     <div>
                         <span>Company type </span>
                         {/* <input  type="text" name = "company_type" placeholder="company type" onChange={this.handleChange}/> */}
-                        <select value={this.state.company_type} name = "company_type" placeholder="company type" onChange={this.handleChange}>
+                        <select value={this.state.company_type} name = "company_type" placeholder="company type"
+                        onChange={this.handleChange.bind(this, "company_type")} value={this.state.fields["company_type"]}>
                             <option defaultValue>Select...</option>
                             <option value="IT">It</option>
                             <option value="FINANCIAL">Financial</option>
                             <option value="SPACE">Space</option>
                             <option value="SPIRITUAL">Spiritual</option>
                         </select>
-                        <span>  {this.state && this.state.company_type}</span>
+                        <span>  {this.state.fields && this.state.fields['company_type']}</span>
                     </div>
                     <br/>
                     <div>
                         <span>Designation  </span>
-                        <input  type="text" name = "designation" placeholder="designation" onChange={this.handleChange}/>
-                        <span>  {this.state && this.state.designation}</span>
+                        <input  type="text" name = "designation" placeholder="designation"
+                        onChange={this.handleChange.bind(this, "designation")} value={this.state.fields["designation"]}/>
+                        <span>  {this.state.fields && this.state.fields['designation']}</span>
                     </div>
                     <br/>
                     

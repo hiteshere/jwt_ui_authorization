@@ -11,19 +11,19 @@ class Login extends Component {
         this.resetForm = this.resetForm.bind(this)
         this.onCloseModal = this.onCloseModal.bind(this)
         this.state = {
-            email : '',
-            password:'',
+            fields: {},
             open: false,
 
         };
     }
     submitForm(e){
-        console.log('data here'+ e)
-        this.props.userLoginAction(this.state)
+        this.props.userLoginAction(this.state.fields)
         e.preventDefault();
     }
-    handleChange(event) {
-        this.setState({ [event.target.name] : event.target.value});
+    handleChange(field, e){         
+        let fields = this.state.fields;
+        fields[field] = e.target.value;        
+        this.setState({fields});
     }
     resetForm(event){
         window.location.reload();
@@ -54,14 +54,16 @@ class Login extends Component {
                     <br/>
                     <div>
                         <span>Email id  </span>
-                        <input  type="text" name = "email" placeholder="email" onChange={this.handleChange}/>
-                        <span>  {this.state && this.state.email}</span>
+                        <input  type="text" name = "email" placeholder="email"
+                        onChange={this.handleChange.bind(this, "email")} value={this.state.fields["email"]}/>
+                        <span>  {this.state && this.state.fields['email']}</span>
                     </div>
                     <br/>
                     <div>
                         <span>Password  </span>
-                        <input  type="text" name = "password" placeholder="password" onChange={this.handleChange}/>
-                        <span>  {this.state && this.state.password}</span>
+                        <input  type="text" name = "password" placeholder="password"
+                        onChange={this.handleChange.bind(this, "password")} value={this.state.fields["password"]}/>
+                        <span>  {this.state && this.state.fields['password']}</span>
                     </div>
                     <br/>
                     

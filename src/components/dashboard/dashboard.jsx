@@ -74,7 +74,7 @@ class Dashboard extends Component {
                     <td>{this.state.designation}</td>
                 </tr>
                 </table>
-                <Link to="/home/job_detail">See job details only</Link>
+                <button disabled="disabled"><Link to="/home/job_detail">See job details only</Link></button>
                 <input type="reset" onClick={this.logoutUser} value="Logout"/>
             </div>
         );
