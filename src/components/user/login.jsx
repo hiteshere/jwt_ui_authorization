@@ -36,7 +36,7 @@ class Login extends Component {
         if (nextProps.loginReducer && nextProps.loginReducer.data && nextProps.loginReducer.data.token != null && nextProps.loginReducer.success === true){
             console.log(nextProps.loginReducer.data)
             console.log('Redirecting to dashbaord now.')
-            this.props.history.push("/dashboard");
+            this.props.history.push("/home/dashboard");
         }
         else if (nextProps.loginReducer && nextProps.loginReducer.error && nextProps.loginReducer.loading === false){
             alert('User authentication details not correct.')

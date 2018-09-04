@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import { Link } from 'react-router-dom';
 import { userDetailAction } from "../../actions/profile/profileAction";
 
-class Dashboard extends Component {
+class JobDetail extends Component {
     constructor(props) {
         super(props);
         this.logoutUser = this.logoutUser.bind(this)
@@ -56,8 +56,7 @@ class Dashboard extends Component {
 
         return(
             <div>
-                <p>Welcome user {localStorage.getItem('email')}</p>
-                <h2>User details.</h2>
+                <h2>Job details.</h2>
                 <table className="width:100%">
                 <tr>
                     <th>Email</th>
@@ -73,9 +72,8 @@ class Dashboard extends Component {
                     <td>{this.state.company_type}</td>
                     <td>{this.state.designation}</td>
                 </tr>
+                <Link to="/home/dashboard">Back</Link>
                 </table>
-                <Link to="/home/job_detail">See job details only</Link>
-                <input type="reset" onClick={this.logoutUser} value="Logout"/>
             </div>
         );
     }
@@ -86,5 +84,5 @@ function mapStateToProps(state){
     }
 }
 
-Dashboard = connect(mapStateToProps, {userDetailAction})(Dashboard);
-export default Dashboard;
+JobDetail = connect(mapStateToProps, {userDetailAction})(JobDetail);
+export default JobDetail;
