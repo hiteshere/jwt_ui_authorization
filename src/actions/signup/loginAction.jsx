@@ -13,7 +13,10 @@ export function userLoginAction(signUpDetails) {
             url: URL.LOGIN_URL,
             data: signUpDetails
         }).then(response => {
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('email', response.data.name);
             dispatch({type: "USER_LOGIN_SUCCESS", payload: response.data});
+
         }).catch((error) => {
             if (error && error.response && error.response.data) {
                 dispatch({type: "USER_LOGIN_ERROR", payload: error.response.data});

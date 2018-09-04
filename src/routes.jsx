@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // import axios from 'axios';
 import Login from './components/user/login'
 import Signup from './components/user/signup';
+import Dashboard from './components/dashboard/dashboard';
 
 // let RESPONSE_CODE_SESSION_CLOSED = 401;
 
@@ -43,8 +44,9 @@ class Routes extends Component {
           <div id="root_1">
             <BrowserRouter>
                 <Switch>
-                    <Route path="/login" component={Login } />
-                    <Route path="/" component={Signup } />
+                    <Route path="/dashboard" component={Dashboard} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/" component={Signup} />
                 </Switch>
             </BrowserRouter>
           </div>
