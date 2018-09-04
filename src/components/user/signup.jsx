@@ -12,12 +12,79 @@ class Signup extends Component {
         this.state = {
             fields: {},
             open: false,
+            errors:{}
 
         };
     }
+    handleValidation(){
+        let fields = this.state.fields;
+        let errors = {};
+        let formIsValid = true;
+
+        // First name
+        if(!fields["first_name"]){
+           formIsValid = false;
+           errors["first_name"] = "First name cannot be empty";
+        }
+        else if(!fields["first_name"].match(/^[a-zA-Z]+$/)){
+            formIsValid = false;
+            errors["first_name"] = "Only letters";
+         }
+
+         // Last name
+        if(!fields["last_name"]){
+            formIsValid = false;
+            errors["last_name"] = "Last name cannot be empty";
+        }
+        else if(!fields["last_name"].match(/^[a-zA-Z]+$/)){
+            formIsValid = false;
+            errors["last_name"] = "Only letters";
+         }
+
+         // Password
+        if(!fields["password"]){
+            formIsValid = false;
+            errors["password"] = "Password cannot be empty";
+        }else if(fields["password"].length > 16){
+            formIsValid = false;
+            errors["password"] = "Password cannot more than 16 characters";
+        }
+
+        if(!fields["company_name"]){
+            formIsValid = false;
+            errors["company_name"] = "Company name cannot be empty";
+        }
+
+        if(!fields["company_type"]){
+            formIsValid = false;
+            errors["company_type"] = "Company type cannot be empty";
+        }
+
+        if(!fields["designation"]){
+            formIsValid = false;
+            errors["designation"] = "Designation cannot be empty";
+        }
+
+        //Email
+        let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if(!fields["email"]){
+           formIsValid = false;
+           errors["email"] = "Email cannot be empty";
+        }
+        else if(!filter.test(fields["email"])){
+            formIsValid = false;
+           errors["email"] = "Email format not correct";
+        }
+
+       this.setState({errors: errors});
+       return formIsValid;
+   }
+
     submitForm(e){
         console.log('data here'+ e)
-        this.props.userCreationAction(this.state.fields)
+        if(this.handleValidation()){
+            this.props.userCreationAction(this.state.fields)
+        }
         e.preventDefault();
     }
     
@@ -42,6 +109,14 @@ class Signup extends Component {
             this.setState({ open: true });
             
         }
+        else if (nextProps.signUpReducer && nextProps.signUpReducer.data && nextProps.signUpReducer.error === true){
+            let error_array
+            for (let key in nextProps.signUpReducer.data) {
+                error_array = nextProps.signUpReducer.data[key][0];
+            }
+            alert(error_array)
+            
+        }
     }
 
 
@@ -60,6 +135,8 @@ class Signup extends Component {
                         onChange={this.handleChange.bind(this, "email")} value={this.state.fields["email"]}/>
                         <span>  {this.state.fields && this.state.fields['email']}</span>
                     </div>
+                    <span style={{color: "red",fontSize: 15}}>{this.state.errors && this.state.errors["email"]}</span>
+                    <br/>
                     <br/>
                     <div>
                         <span>Password  </span>
@@ -67,6 +144,8 @@ class Signup extends Component {
                         onChange={this.handleChange.bind(this, "password")} value={this.state.fields["password"]}/>
                         <span>  {this.state.fields && this.state.fields['password']}</span>
                     </div>
+                    <span style={{color: "red",fontSize: 15}}>{this.state.errors && this.state.errors["password"]}</span>
+                    <br/>
                     <br/>
                     <div>
                         <span>User first name  </span>
@@ -74,6 +153,8 @@ class Signup extends Component {
                         onChange={this.handleChange.bind(this, "first_name")} value={this.state.fields["first_name"]}/>
                         <span>  {this.state.fields && this.state.fields['first_name']}</span>
                     </div>
+                    <span style={{color: "red",fontSize: 15}}>{this.state.errors && this.state.errors["first_name"]}</span>
+                    <br/>
                     <br/>
                     <div>
                         <span>User last name  </span>
@@ -81,6 +162,8 @@ class Signup extends Component {
                         onChange={this.handleChange.bind(this, "last_name")} value={this.state.fields["last_name"]}/>
                         <span>  {this.state.fields && this.state.fields['last_name']}</span>
                     </div>
+                    <span style={{color: "red",fontSize: 15}}>{this.state.errors && this.state.errors["last_name"]}</span>
+                    <br/>
                     <br/>
                     <div>
                         <span>Company name  </span>
@@ -88,11 +171,13 @@ class Signup extends Component {
                         onChange={this.handleChange.bind(this, "company_name")} value={this.state.fields["company_name"]}/>
                         <span>  {this.state.fields && this.state.fields['company_name']}</span>
                     </div>
+                    <span style={{color: "red",fontSize: 15}}>{this.state.errors && this.state.errors["company_name"]}</span>
+                    <br/>
                     <br/>
                     <div>
                         <span>Company type </span>
                         {/* <input  type="text" name = "company_type" placeholder="company type" onChange={this.handleChange}/> */}
-                        <select value={this.state.company_type} name = "company_type" placeholder="company type"
+                        <select  name = "company_type" placeholder="company type"
                         onChange={this.handleChange.bind(this, "company_type")} value={this.state.fields["company_type"]}>
                             <option defaultValue>Select...</option>
                             <option value="IT">It</option>
@@ -102,6 +187,8 @@ class Signup extends Component {
                         </select>
                         <span>  {this.state.fields && this.state.fields['company_type']}</span>
                     </div>
+                    <span style={{color: "red",fontSize: 15}}>{this.state.errors && this.state.errors["company_type"]}</span>
+                    <br/>
                     <br/>
                     <div>
                         <span>Designation  </span>
@@ -109,8 +196,9 @@ class Signup extends Component {
                         onChange={this.handleChange.bind(this, "designation")} value={this.state.fields["designation"]}/>
                         <span>  {this.state.fields && this.state.fields['designation']}</span>
                     </div>
+                    <span style={{color: "red",fontSize: 15}}>{this.state.errors && this.state.errors["designation"]}</span>
                     <br/>
-                    
+                    <br/>
                     <input type="reset" onClick={this.resetForm} value="Reset values"/>
                     <input type="submit" value="Create User"/>
                 </form>
@@ -121,7 +209,7 @@ class Signup extends Component {
                 {/* confirm popup */}
                 <Modal open={this.state.open} onClose={this.onCloseModal} closeOnEsc={false} closeOnOverlayClick={false} center>
                     <br/>
-                    <p>You have successfully created user with {this.state.email} please go to login.</p>
+                    <p>You have successfully created user with {this.state.fields["email"]} please go to login.</p>
                     <div className="modal-footer modal-center-btn">
                         <a className="btn primary-btn" href="/login">LOGIN</a>
                     </div>

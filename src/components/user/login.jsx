@@ -12,12 +12,43 @@ class Login extends Component {
         this.onCloseModal = this.onCloseModal.bind(this)
         this.state = {
             fields: {},
+            errors:{},
             open: false,
 
         };
     }
+    handleValidation(){
+        let fields = this.state.fields;
+        let errors = {};
+        let formIsValid = true;
+
+         // Password
+        if(!fields["password"]){
+            formIsValid = false;
+            errors["password"] = "Password cannot be empty";
+        }else if(fields["password"].length > 16){
+            formIsValid = false;
+            errors["password"] = "Password cannot more than 16 characters";
+        }
+
+        //Email
+        let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if(!fields["email"]){
+           formIsValid = false;
+           errors["email"] = "Email cannot be empty";
+        }
+        else if(!filter.test(fields["email"])){
+            formIsValid = false;
+           errors["email"] = "Email format not correct";
+        }
+
+       this.setState({errors: errors});
+       return formIsValid;
+   }
     submitForm(e){
-        this.props.userLoginAction(this.state.fields)
+        if(this.handleValidation()){
+            this.props.userLoginAction(this.state.fields)
+        }
         e.preventDefault();
     }
     handleChange(field, e){         
@@ -39,7 +70,11 @@ class Login extends Component {
             this.props.history.push("/home/dashboard");
         }
         else if (nextProps.loginReducer && nextProps.loginReducer.error && nextProps.loginReducer.loading === false){
-            alert('User authentication details not correct.')
+            let error_array
+            for (let key in nextProps.loginReducer.data) {
+                error_array = nextProps.loginReducer.data[key];
+            }
+            alert(error_array)
         }
     }
 
@@ -58,6 +93,8 @@ class Login extends Component {
                         onChange={this.handleChange.bind(this, "email")} value={this.state.fields["email"]}/>
                         <span>  {this.state && this.state.fields['email']}</span>
                     </div>
+                    <span style={{color: "red",fontSize: 15}}>{this.state.errors && this.state.errors["email"]}</span>
+                    <br/>
                     <br/>
                     <div>
                         <span>Password  </span>
@@ -65,6 +102,8 @@ class Login extends Component {
                         onChange={this.handleChange.bind(this, "password")} value={this.state.fields["password"]}/>
                         <span>  {this.state && this.state.fields['password']}</span>
                     </div>
+                    <span style={{color: "red",fontSize: 15}}>{this.state.errors && this.state.errors["password"]}</span>
+                    <br/>
                     <br/>
                     
                     <input type="reset" onClick={this.resetForm} value="Reset values"/>
