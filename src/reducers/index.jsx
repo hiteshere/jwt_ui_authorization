@@ -1,12 +1,13 @@
 import { combineReducers } from 'redux';
 import { signUpReducer } from './signupReducer';
 import { loginReducer } from './loginReducer';
-import { userDetailReducer } from './profileReducer';
+import { userDetailReducer, jobDetailReducer } from './profileReducer';
 
 const appReducers = combineReducers({
     signUpReducer: signUpReducer,
     loginReducer:loginReducer,
     userDetailReducer:userDetailReducer,
+    jobDetailReducer:jobDetailReducer,
 });
 
 const reducers = (state, action) => {

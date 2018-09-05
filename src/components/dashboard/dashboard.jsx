@@ -56,7 +56,7 @@ class Dashboard extends Component {
 
         return(
             <div>
-                <p>Welcome user {localStorage.getItem('email')}</p>
+                <p>Welcome user <b>{localStorage.getItem('name')}</b> registered with <b>{localStorage.getItem('email')}</b></p>
                 <h2>User details.</h2>
                 <table className="width:100%">
                 <tr>

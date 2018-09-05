@@ -23,3 +23,27 @@ export function userDetailAction(history, access_token) {
         dispatch({type: "PROFILE_DETAIL_PENDING"});
     };
 }
+
+
+export function jobDetailAction(history, access_token) {
+    return function (dispatch) {
+        axios({
+            method: 'get',
+            url: URL.JOB_DETAIL,
+            // data: completeYourProfileDetails,
+            headers: { 'Authorization': 'bearer ' + access_token }
+        }).then(response => {
+            dispatch({type: "JOB_DETAIL_SUCCESS", payload: response});
+
+        }).catch((error) => {
+            if (error && error.response && error.response.data) {
+                dispatch({ type: "JOB_DETAIL_ERROR", payload: error.response })
+            } else if (error && error.response && error.response.status === 401) {
+                history.push('/login');
+            }else {
+                dispatch({ type: "JOB_DETAIL_ERROR", payload: 'Something went wrong!' })
+            }
+        });
+        dispatch({type: "JOB_DETAIL_PENDING"});
+    };
+}

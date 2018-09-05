@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {connect} from "react-redux";
 import Modal from 'react-responsive-modal';
+import { Link } from 'react-router-dom';
 import { userCreationAction } from "../../actions/signup/signupAction"
 
 class Signup extends Component {
@@ -94,7 +95,10 @@ class Signup extends Component {
         this.setState({fields});
     }
     resetForm(event){
-        window.location.reload();
+        this.setState({
+            fields: {},
+            errors: {}
+        })
     }
     onCloseModal () {
         this.setState({ open: false });
@@ -203,7 +207,7 @@ class Signup extends Component {
                     <input type="submit" value="Create User"/>
                 </form>
                 <p>Already Have an accout.</p>
-                <a href="/login">Login</a>
+                <Link to="/login">Login</Link>
 
                 {/* confirmation popup */}
                 {/* confirm popup */}

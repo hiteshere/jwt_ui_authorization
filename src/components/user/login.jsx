@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {connect} from "react-redux";
 import Modal from 'react-responsive-modal';
+import { Link } from 'react-router-dom';
 import { userLoginAction } from "../../actions/signup/loginAction"
 
 class Login extends Component {
@@ -57,7 +58,7 @@ class Login extends Component {
         this.setState({fields});
     }
     resetForm(event){
-        window.location.reload();
+        this.setState({ fields: {}, errors: {} })
     }
     onCloseModal () {
         this.setState({ open: false });
@@ -109,8 +110,30 @@ class Login extends Component {
                     <input type="reset" onClick={this.resetForm} value="Reset values"/>
                     <input type="submit" value="Login User"/>
                 </form>
+                {/* <div className="card-body">
+                    <form action="" method="post" class="form-horizontal">
+                        <div class="position-relative row form-group">
+                            <label for="input-small" class="col-form-label-sm col-sm-5 col-form-label">Small Input</label>
+                            <div class="col-sm-6">
+                                <input id="input-small" name="input-small" placeholder=".form-control-sm" type="text" class="input-sm form-control-sm form-control" />
+                            </div>
+                        </div>
+                        <div class="position-relative row form-group">
+                            <label for="input-normal" class="col-sm-5 col-form-label">Normal Input</label>
+                            <div class="col-sm-6">
+                                <input id="input-normal" name="input-normal" placeholder="Normal" type="text" class="form-control" />
+                        </div>
+                            </div>
+                            <div class="position-relative row form-group">
+                            <label for="input-large" class="col-form-label-lg col-sm-5 col-form-label">Large Input</label>
+                            <div class="col-sm-6">
+                                <input id="input-large" name="input-large" placeholder=".form-control-lg" type="text" class="input-lg form-control-lg form-control" />
+                            </div>
+                        </div>
+                    </form>
+                </div> */}
                 <p>Does not Have an accout.</p>
-                <a href="/">Signup</a>
+                <Link to="/">Signup</Link>
 
                 {/* confirmation popup */}
                 {/* confirm popup */}

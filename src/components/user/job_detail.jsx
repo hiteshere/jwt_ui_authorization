@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import {connect} from "react-redux";
 import { Link } from 'react-router-dom';
-import { userDetailAction } from "../../actions/profile/profileAction";
+import Modal from 'react-responsive-modal';
+import { jobDetailAction } from "../../actions/profile/profileAction";
 
 class JobDetail extends Component {
     constructor(props) {
         super(props);
         this.logoutUser = this.logoutUser.bind(this)
+        this.onCloseModal = this.onCloseModal.bind(this)
         this.state = {
             email : '',
             password:'',
@@ -15,6 +17,7 @@ class JobDetail extends Component {
             company_name : '',
             company_type : '',
             designation : '',
+            error:'',
             open: false,
 
         };
@@ -27,26 +30,42 @@ class JobDetail extends Component {
         if (! localStorage.getItem('token')) {
             this.props.history.push('/login')
         }
-        this.props.userDetailAction(this.props.history ,localStorage.getItem('token'));
+        this.props.jobDetailAction(this.props.history ,localStorage.getItem('token'));
     }
     
     componentWillReceiveProps(nextProps){
-        if (nextProps.userDetailReducer && nextProps.userDetailReducer.data && nextProps.userDetailReducer.success === true){
-            console.log(nextProps.userDetailReducer.data)
+        if (nextProps.jobDetailReducer && nextProps.jobDetailReducer.data && nextProps.jobDetailReducer.success === true){
+            console.log(nextProps.jobDetailReducer.data)
             this.setState({
-                'email': nextProps.userDetailReducer.data.email,
-                'first_name': nextProps.userDetailReducer.data.first_name,
-                'last_name': nextProps.userDetailReducer.data.last_name,
-                'company_name': nextProps.userDetailReducer.data.user_job.company_name,
-                'company_type': nextProps.userDetailReducer.data.user_job.company_type,
-                'designation': nextProps.userDetailReducer.data.user_job.designation,
+                // 'email': nextProps.jobDetailReducer.data.email,
+                // 'first_name': nextProps.jobDetailReducer.data.first_name,
+                // 'last_name': nextProps.jobDetailReducer.data.last_name,
+                'company_name': nextProps.jobDetailReducer.data.data.company_name,
+                'company_type': nextProps.jobDetailReducer.data.data.company_type,
+                'designation': nextProps.jobDetailReducer.data.data.designation,
             })
             console.log('Welcome to dashbaord.')
+        }else if (nextProps.jobDetailReducer && 
+                    nextProps.jobDetailReducer.data && 
+                    nextProps.jobDetailReducer.error === true && 
+                    nextProps.jobDetailReducer.status != 200 && 
+                    nextProps.jobDetailReducer.success === false && 
+                    nextProps.jobDetailReducer.loading === false){
+            this.setState({
+                error: nextProps.jobDetailReducer.data.data.detail,
+                open: true
+            })
+            console.log('Unauthorized.')
         }
+    }
+    onCloseModal () {
+        this.setState({ open: false });
+        localStorage.clear();
+        this.props.history.push("/login");
     }
 
     render(){
-        if(this.props.userDetailReducer.loading){
+        if(this.props.jobDetailReducer.loading){
             return(
                 <div>
                     <h2>Dashboard is loading...</h2>
@@ -59,30 +78,34 @@ class JobDetail extends Component {
                 <h2>Job details.</h2>
                 <table className="width:100%">
                 <tr>
-                    <th>Email</th>
-                    <th>User name</th> 
                     <th>Company name</th>
                     <th>Company type</th>
                     <th>Designation</th>
                 </tr>
                 <tr>
-                    <td>{this.state.email}</td>
-                    <td>{this.state.first_name} {this.state.last_name}</td>
                     <td>{this.state.company_name}</td>
                     <td>{this.state.company_type}</td>
                     <td>{this.state.designation}</td>
                 </tr>
                 <Link to="/home/dashboard">Back</Link>
                 </table>
+                {/* Status message popup */}
+                <Modal open={this.state.open} onClose={this.onCloseModal} closeOnEsc={false} closeOnOverlayClick={false} center>
+                    <br/>
+                    <p>{this.state.error}</p>
+                    <div className="modal-footer modal-center-btn">
+                        <button onClick={this.onCloseModal}>GO TO LOGIN</button>
+                    </div>
+                </Modal>
             </div>
         );
     }
 }
 function mapStateToProps(state){
     return {
-        userDetailReducer: state.userDetailReducer,
+        jobDetailReducer: state.jobDetailReducer,
     }
 }
 
-JobDetail = connect(mapStateToProps, {userDetailAction})(JobDetail);
+JobDetail = connect(mapStateToProps, {jobDetailAction})(JobDetail);
 export default JobDetail;
