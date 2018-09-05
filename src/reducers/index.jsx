@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
-import { signUpReducer } from './signupReducer';
+import { signUpReducer, otpCheckReducer } from './signupReducer';
 import { loginReducer } from './loginReducer';
 import { userDetailReducer, jobDetailReducer } from './profileReducer';
 
 const appReducers = combineReducers({
     signUpReducer: signUpReducer,
+    otpCheckReducer:otpCheckReducer,
     loginReducer:loginReducer,
     userDetailReducer:userDetailReducer,
     jobDetailReducer:jobDetailReducer,

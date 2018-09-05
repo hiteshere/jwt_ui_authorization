@@ -22,3 +22,21 @@ export function userCreationAction(signUpDetails) {
         dispatch({type: "USER_CREATION_PENDING"});
     };
 }
+
+
+export function checkOtpAction(otp) {
+    return function (dispatch) {
+        axios({
+            method: "post",
+            url: URL.OTP_URL,
+            data: {'otp':otp}
+        }).then(response => {
+            dispatch({type: "OTP_CHECK_SUCCESS", payload: response.data});
+        }).catch((error) => {
+            if (error && error.response && error.response.data) {
+                dispatch({type: "OTP_CHECK_ERROR", payload: error.response.data});
+            }
+        });
+        dispatch({type: "OTP_CHECK_PENDING"});
+    };
+}

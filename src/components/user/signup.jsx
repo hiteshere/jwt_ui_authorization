@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {connect} from "react-redux";
 import Modal from 'react-responsive-modal';
 import { Link } from 'react-router-dom';
-import { userCreationAction } from "../../actions/signup/signupAction"
+import { userCreationAction, checkOtpAction } from "../../actions/signup/signupAction"
 
 class Signup extends Component {
     constructor(props) {
@@ -10,6 +10,7 @@ class Signup extends Component {
         this.submitForm = this.submitForm.bind(this)
         this.resetForm = this.resetForm.bind(this)
         this.onCloseModal = this.onCloseModal.bind(this)
+        this.checkOtp = this.checkOtp.bind(this)
         this.state = {
             fields: {},
             open: false,
@@ -17,6 +18,11 @@ class Signup extends Component {
 
         };
     }
+
+    checkOtp() {
+        this.props.checkOtpAction(this.state.fields['otp'])
+    }
+
     handleValidation(){
         let fields = this.state.fields;
         let errors = {};
@@ -121,6 +127,23 @@ class Signup extends Component {
             alert(error_array)
             
         }
+        if (nextProps.otpCheckReducer && nextProps.otpCheckReducer.success === true){
+            nextProps.otpCheckReducer.success == false
+            let errors = {}
+            errors["otp_error"] = "";
+            this.setState({
+                errors : errors
+            })
+            this.props.history.push("/login");
+        }
+        else if(nextProps.otpCheckReducer && nextProps.otpCheckReducer.error === true && nextProps.otpCheckReducer.success === false){
+            let errors = {}
+            errors["otp_error"] = "Invalid OTP. Try again";
+            this.setState({
+                errors : errors
+            })
+        }
+        
     }
 
 
@@ -211,11 +234,14 @@ class Signup extends Component {
 
                 {/* confirmation popup */}
                 {/* confirm popup */}
-                <Modal open={this.state.open} onClose={this.onCloseModal} closeOnEsc={false} closeOnOverlayClick={false} center>
+                <Modal open={this.state.open} showCloseIcon={false} onClose={this.onCloseModal} closeOnEsc={false} closeOnOverlayClick={false} center>
                     <br/>
-                    <p>You have successfully created user with {this.state.fields["email"]} please go to login.</p>
+                    <p>You have successfully created user with {this.state.fields["email"]} please enter the code sent to you.</p>
+                    <input type="text" name="otp" onChange={this.handleChange.bind(this, "otp")} value={this.state.fields["otp"]}/>
+                    <button onClick={() => this.checkOtp(this)}>Submit</button>
+                    <span>  {this.state.fields && this.state.errors['otp_error']}</span>
                     <div className="modal-footer modal-center-btn">
-                        <a className="btn primary-btn" href="/login">LOGIN</a>
+                    {/* <a className="btn primary-btn" href="/login">LOGIN</a> */}
                     </div>
                 </Modal>
             </div>
@@ -225,8 +251,9 @@ class Signup extends Component {
 function mapStateToProps(state){
     return {
         signUpReducer: state.signUpReducer,
+        otpCheckReducer: state.otpCheckReducer,
     }
 }
 
-Signup = connect(mapStateToProps, {userCreationAction})(Signup);
+Signup = connect(mapStateToProps, {userCreationAction, checkOtpAction})(Signup);
 export default Signup;
