@@ -20,7 +20,7 @@ class Signup extends Component {
     }
 
     checkOtp() {
-        this.props.checkOtpAction(this.state.fields['otp'])
+        this.props.checkOtpAction(this.state.fields['otp'], this.state.fields['email'])
     }
 
     handleValidation(){
@@ -116,6 +116,7 @@ class Signup extends Component {
     componentWillReceiveProps(nextProps){
         if (nextProps.signUpReducer && nextProps.signUpReducer.data && nextProps.signUpReducer.data.id != null && nextProps.signUpReducer.success === true){
             console.log(nextProps.signUpReducer.data)
+
             this.setState({ open: true });
             
         }

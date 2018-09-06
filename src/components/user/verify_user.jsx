@@ -22,7 +22,7 @@ class VerifyUser extends Component {
 
     checkOtp() {
         if(this.state.fields['otp'] != ""){
-            this.props.checkOtpAction(this.state.fields['otp'])
+            this.props.checkOtpAction(this.state.fields['otp'], this.state.fields['email'])
         }
     }
 

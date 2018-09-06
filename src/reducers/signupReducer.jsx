@@ -25,7 +25,7 @@ export function signUpReducer(state = { data: {}, loading: true, error: false },
     }
 }
 
-export function otpCheckReducer(state = { data: {}, loading: true, error: false }, action) {
+export function otpCheckReducer(state = { data: {}, loading: true, error: false, success: false}, action) {
     switch (action.type) {
         case "OTP_CHECK_SUCCESS":
             return Object.assign({}, state, {

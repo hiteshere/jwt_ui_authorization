@@ -24,12 +24,12 @@ export function userCreationAction(signUpDetails) {
 }
 
 
-export function checkOtpAction(otp) {
+export function checkOtpAction(otp, email) {
     return function (dispatch) {
         axios({
             method: "post",
             url: URL.OTP_URL,
-            data: {'otp':otp}
+            data: {'otp':otp, 'email': email}
         }).then(response => {
             dispatch({type: "OTP_CHECK_SUCCESS", payload: response.data});
         }).catch((error) => {
