@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // import axios from 'axios';
-import Login from './components/user/login'
+import Login from './components/user/login';
+import VerifyUser from './components/user/verify_user';
 import Signup from './components/user/signup';
 // import Dashboard from './components/dashboard/dashboard';
 import Home from './components/dashboard/home';
@@ -47,6 +48,7 @@ class Routes extends Component {
                 <Switch>
                     {/* <Route path="/dashboard" component={Dashboard} /> */}
                     <Route path="/home" component={Home} />
+                    <Route path="/verify_user" component={VerifyUser} />
                     <Route path="/login" component={Login} />
                     <Route path="/" component={Signup} />
                 </Switch>

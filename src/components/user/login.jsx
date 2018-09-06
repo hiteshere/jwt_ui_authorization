@@ -134,6 +134,9 @@ class Login extends Component {
                 </div> */}
                 <p>Does not Have an accout.</p>
                 <Link to="/">Signup</Link>
+                <br/>
+                <p>Verify existing account.</p>
+                <Link to="/verify_user">Verify</Link>
 
                 {/* confirmation popup */}
                 {/* confirm popup */}

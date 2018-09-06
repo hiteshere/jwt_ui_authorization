@@ -26,3 +26,21 @@ export function userLoginAction(signUpDetails) {
         dispatch({type: "USER_LOGIN_PENDING"});
     };
 }
+
+export function userReVerifyAction(userDetails) {
+    return function (dispatch) {
+        axios({
+            method: "post",
+            url: URL.OTP_RECHECK_URL,
+            data: { 'email' : userDetails}
+        }).then(response => {
+            dispatch({type: "OTP_RECHECK_SUCCESS", payload: response.data});
+
+        }).catch((error) => {
+            if (error && error.response && error.response.data) {
+                dispatch({type: "OTP_RECHECK_ERROR", payload: error.response.data});
+            }
+        });
+        dispatch({type: "OTP_RECHECK_PENDING"});
+    };
+}

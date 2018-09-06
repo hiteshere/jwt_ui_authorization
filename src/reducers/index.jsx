@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { signUpReducer, otpCheckReducer } from './signupReducer';
-import { loginReducer } from './loginReducer';
+import { loginReducer, userReVerifyReducer } from './loginReducer';
 import { userDetailReducer, jobDetailReducer } from './profileReducer';
 
 const appReducers = combineReducers({
@@ -9,6 +9,7 @@ const appReducers = combineReducers({
     loginReducer:loginReducer,
     userDetailReducer:userDetailReducer,
     jobDetailReducer:jobDetailReducer,
+    userReVerifyReducer: userReVerifyReducer,
 });
 
 const reducers = (state, action) => {
