@@ -20,7 +20,9 @@ class Signup extends Component {
     }
 
     checkOtp() {
-        this.props.checkOtpAction(this.state.fields['otp'], this.state.fields['email'])
+        if(this.state.fields['otp']){
+            this.props.checkOtpAction(this.state.fields['otp'], this.state.fields['email'])
+        }
     }
 
     handleValidation(){
@@ -129,7 +131,7 @@ class Signup extends Component {
             
         }
         if (nextProps.otpCheckReducer && nextProps.otpCheckReducer.success === true){
-            nextProps.otpCheckReducer.success == false
+            nextProps.otpCheckReducer.success = false
             let errors = {}
             errors["otp_error"] = "";
             this.setState({
@@ -238,7 +240,7 @@ class Signup extends Component {
                 <Modal open={this.state.open} showCloseIcon={false} onClose={this.onCloseModal} closeOnEsc={false} closeOnOverlayClick={false} center>
                     <br/>
                     <p>You have successfully created user with {this.state.fields["email"]} please enter the code sent to you.</p>
-                    <input type="text" name="otp" onChange={this.handleChange.bind(this, "otp")} value={this.state.fields["otp"]}/>
+                    <input type="number" name="otp" onChange={this.handleChange.bind(this, "otp")} value={this.state.fields["otp"]}/>
                     <button onClick={() => this.checkOtp(this)}>Submit</button>
                     <span>  {this.state.fields && this.state.errors['otp_error']}</span>
                     <div className="modal-footer modal-center-btn">

@@ -121,6 +121,10 @@ class VerifyUser extends Component {
                     <br/>
                     <input type="reset" onClick={this.resetForm} value="Reset values"/>
                     <input type="submit" value="Submit"/>
+                    <div>
+                    <br/>
+                        <Link to="/login">Login</Link>
+                    </div>
                 </form>
 
                 {/* reverify user popup */}
